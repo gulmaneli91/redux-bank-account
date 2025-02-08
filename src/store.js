@@ -9,5 +9,5 @@ const store = configureStore({
     customer: customerReducer,
   },
 });
-
+ 
 export default store;
