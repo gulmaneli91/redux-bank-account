@@ -4,7 +4,6 @@ import {
   deposit,
   withdraw,
   requestLoan,
-  balance,
   payLoan,
 } from "./accountSlice";
 
@@ -20,12 +19,15 @@ function AccountOperations() {
     loan: currentLoan,
     loanPurpose: currentLoanPurpose,
     balance,
+    isLoading,
   } = useSelector((store) => store.account);
 
   function handleDeposit() {
     if (!depositAmount) return;
+    // dispatch(deposit(depositAmount, currency));
     dispatch(deposit(depositAmount));
     setDepositAmount("");
+    setCurrency("");
   }
 
   function handleWithdrawal() {
@@ -36,7 +38,7 @@ function AccountOperations() {
 
   function handleRequestLoan() {
     if (!loanAmount || !loanPurpose) return;
-    dispatch(requestLoan(loanAmount, loanPurpose));
+    dispatch(requestLoan(Number(loanAmount), loanPurpose));
     setLoanAmount("");
     setLoanPurpose("");
   }
@@ -66,7 +68,7 @@ function AccountOperations() {
             <option value="GBP">British Pound</option>
           </select>
 
-          <button onClick={handleDeposit}>Deposit {depositAmount}</button>
+          <button onClick={handleDeposit} disabled={isLoading}>Deposit {isLoading? "Converting...": `Deposit ${depositAmount}`}</button>
         </div>
 
         <div>
